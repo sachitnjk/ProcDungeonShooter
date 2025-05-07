@@ -6,19 +6,38 @@ public class TileGenerator : MonoBehaviour
 {
     [SerializeField] private Tile tilePrefab;
     [SerializeField] private float tileSpacing = 1.0f;
+    [SerializeField] private List<GameObject> tileSetPrefabsList = new List<GameObject>();
+    [SerializeField] private int maxTileSetPerRoom = 5;
     
     [Header("Debug")]
     [SerializeField] private int xTilesCount;
     [SerializeField] private int zTilesCount;
     
     private bool tilesGenerated = false;
+    private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
 
-    private void Start()
+
+    public void GenerateRoom()
     {
-        GenerateTiles(xTilesCount, zTilesCount);
+        int randomIndex = UnityEngine.Random.Range(0, maxTileSetPerRoom);
+
+        for(int i = 0; i <= randomIndex; i++)
+        {
+            GenerateRandomTileSetPrefab();
+        }
     }
 
-    public void GenerateTiles(int xCount, int zCount, Transform parent = null)
+    private void GenerateRandomTileSetPrefab()
+    {
+        if(tileSetPrefabsList.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, tileSetPrefabsList.Count);
+
+            GameObject selectedTileSetPrefab = tileSetPrefabsList[randomIndex];
+        }
+    }
+
+    public void GenerateSpecifiedLengthWidthTiles(int xCount, int zCount, Transform parent = null)
     {
         if(tilesGenerated) return;
 
